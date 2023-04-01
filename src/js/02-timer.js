@@ -12,6 +12,8 @@ const refs = {
 
 const { btnStart, daysTxt, hoursTxt, minutesTxt, secondsTxt } = refs;
 
+btnStart.setAttribute('disabled', 'disabled')
+
 let intervalId = null;
 
 const options = {
@@ -26,6 +28,8 @@ const options = {
       });
     } else {
       btnStart.addEventListener('click', onBthStartClick);
+
+      btnStart.removeAttribute('disabled', 'disabled')
 
       function onBthStartClick() {
         btnStart.setAttribute('disabled', 'disabled')
@@ -49,6 +53,8 @@ const options = {
           console.log(selectedDates[0].getTime() - Date.now());
           if (!(selectedDates[0].getTime() - Date.now())) {
             clearInterval(intervalId);
+
+            btnStart.removeAttribute('disabled', 'disabled')
           }
         }, 1000);
       }
