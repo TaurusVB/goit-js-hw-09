@@ -45,6 +45,12 @@ const options = {
         secondsTxt.textContent = addLeadingZero(String(seconds));
 
         intervalId = setInterval(() => {
+          if (selectedDates[0].getTime() - Date.now() < 0) {
+            clearInterval(intervalId);
+
+            btnStart.removeAttribute('disabled', 'disabled')
+          }
+
           timeLeft = selectedDates[0].getTime() - Date.now();
           let { days, hours, minutes, seconds } = convertMs(timeLeft);
 
@@ -53,11 +59,6 @@ const options = {
           minutesTxt.textContent = addLeadingZero(String(minutes));
           secondsTxt.textContent = addLeadingZero(String(seconds));
           console.log(selectedDates[0].getTime() - Date.now());
-          if (selectedDates[0].getTime() - Date.now() < 0) {
-            clearInterval(intervalId);
-
-            btnStart.removeAttribute('disabled', 'disabled')
-          }
         }, 1000);
       }
     }
