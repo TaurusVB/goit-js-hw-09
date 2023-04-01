@@ -12,9 +12,7 @@ const refs = {
 
 const { btnStart, daysTxt, hoursTxt, minutesTxt, secondsTxt } = refs;
 
-btnStart.setAttribute('disabled', 'disabled')
-
-console.log("first")
+btnStart.setAttribute('disabled', 'disabled');
 
 let intervalId = null;
 
@@ -31,34 +29,35 @@ const options = {
     } else {
       btnStart.addEventListener('click', onBthStartClick);
 
-      btnStart.removeAttribute('disabled', 'disabled')
+      btnStart.removeAttribute('disabled', 'disabled');
 
       function onBthStartClick() {
-        btnStart.setAttribute('disabled', 'disabled')
+        btnStart.setAttribute('disabled', 'disabled');
 
         let timeLeft = selectedDates[0].getTime() - Date.now();
         let { days, hours, minutes, seconds } = convertMs(timeLeft);
 
-        daysTxt.textContent = addLeadingZero(String(days));
-        hoursTxt.textContent = addLeadingZero(String(hours));
-        minutesTxt.textContent = addLeadingZero(String(minutes));
-        secondsTxt.textContent = addLeadingZero(String(seconds));
+        daysTxt.textContent = addLeadingZero(days);
+        hoursTxt.textContent = addLeadingZero(hours);
+        minutesTxt.textContent = addLeadingZero(minutes);
+        secondsTxt.textContent = addLeadingZero(seconds);
 
         intervalId = setInterval(() => {
-          if (selectedDates[0].getTime() - Date.now() < 10) {
-            clearInterval(intervalId);
-
-            btnStart.removeAttribute('disabled', 'disabled')
-          }
-
           timeLeft = selectedDates[0].getTime() - Date.now();
           let { days, hours, minutes, seconds } = convertMs(timeLeft);
 
-          daysTxt.textContent = addLeadingZero(String(days));
-          hoursTxt.textContent = addLeadingZero(String(hours));
-          minutesTxt.textContent = addLeadingZero(String(minutes));
-          secondsTxt.textContent = addLeadingZero(String(seconds));
-          console.log(selectedDates[0].getTime() - Date.now());
+          if (timeLeft < 1000) {
+            clearInterval(intervalId);
+
+            btnStart.removeAttribute('disabled', 'disabled');
+          }
+
+          daysTxt.textContent = addLeadingZero(days);
+          hoursTxt.textContent = addLeadingZero(hours);
+          minutesTxt.textContent = addLeadingZero(minutes);
+          secondsTxt.textContent = addLeadingZero(seconds);
+
+          console.log(timeLeft);
         }, 1000);
       }
     }
@@ -68,7 +67,7 @@ const options = {
 flatpickr('input#datetime-picker', options);
 
 function addLeadingZero(value) {
-  return value.padStart(2, '0');
+  return String(value).padStart(2, '0');
 }
 
 function convertMs(ms) {
