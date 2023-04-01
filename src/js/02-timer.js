@@ -45,7 +45,7 @@ const options = {
         secondsTxt.textContent = addLeadingZero(String(seconds));
 
         intervalId = setInterval(() => {
-          if (selectedDates[0].getTime() - Date.now() < 0) {
+          if (selectedDates[0].getTime() - Date.now() < 10) {
             clearInterval(intervalId);
 
             btnStart.removeAttribute('disabled', 'disabled')
